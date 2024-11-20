@@ -37,6 +37,7 @@ app.post('/api/users', bodyParser.json(), (req, res) => {
         fs.writeFile('users.json', users, (error) => {
             if(error)
                 console.error(error);
+            res.sendStatus(201);
         });
     });
 });
