@@ -49,5 +49,17 @@ app.get('/api/users', (req, res) => {
         res.sendStatus(200);
     });
 });
+app.get('/api/users:id', (req, res) => {
+    const id = req.params.id;
+
+    fs.readFile('users.json', (err, data) => {
+        for(let i of data) {
+            if(i.id === id) {
+                res.send(i);
+                res.sendStatus(200);
+            }
+        }
+    });
+});
 
 app.listen(3000);
