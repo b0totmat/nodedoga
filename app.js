@@ -1,5 +1,8 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const app = express();
+const fs = require('fs');
+
 
 app.get('/', (req, res) => {
     res.send('Hi there!');
@@ -15,6 +18,27 @@ app.get('/greeting', (req, res) => {
 
 app.get('/nodejs', (req, res) => {
     res.send('A Node.js egy olyan szerveroldali JavaScript futtatókörnyezet, amely a V8 JavaScript motorra épül.');
+});
+
+app.post('/api/users', bodyParser.json(), (req, res) => {
+    const newUser = {
+        id: req.body.id,
+        name: req.body.name
+    };
+    let users = [];
+
+    fs.readFile('users.json', (err, data) => {
+        if(err)
+            console.error(err);
+        
+        users = data.json();
+        users.push(newUser);
+
+        fs.writeFile('users.json', users, (error) => {
+            if(error)
+                console.error(error);
+        });
+    });
 });
 
 app.listen(3000);
