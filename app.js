@@ -61,5 +61,49 @@ app.get('/api/users:id', (req, res) => {
         }
     });
 });
+app.put('/api/user:id', bodyParser.json(), (req, res) => {
+    const id = req.params.id;
+    let users = [];
+
+    fs.readFile('users.json', (err, data) => {
+        if(err)
+            console.error(err);
+        
+        users = data.json();
+        users.forEach(u => {
+            if(u.id === id) {
+                u.name = req.body.name
+            }
+        });
+
+        fs.writeFile('users.json', users, (error) => {
+            if(error)
+                console.error(error);
+            res.sendStatus(200);
+        });
+    });
+});
+app.delete('/api/user:id', (req, res) => {
+    const id = req.params.id;
+    let users = [];
+
+    fs.readFile('users.json', (err, data) => {
+        if(err)
+            console.error(err);
+        
+        let newUsers = [];
+        users = data.json();
+        users.forEach(u => {
+            if(u.id != id)
+                newUsers.push(u);
+        });
+
+        fs.writeFile('users.json', newUsers, (error) => {
+            if(error)
+                console.error(error);
+            res.sendStatus(204);
+        });
+    });
+});
 
 app.listen(3000);
