@@ -40,5 +40,13 @@ app.post('/api/users', bodyParser.json(), (req, res) => {
         });
     });
 });
+app.get('/api/users', (req, res) => {
+    fs.readFile('users.json', (err, data) => {
+        if(err)
+            console.error(err);
+        res.send(data);
+        res.sendStatus(200);
+    });
+});
 
 app.listen(3000);
