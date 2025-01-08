@@ -51,8 +51,24 @@ db.serialize(() => {
     }
 })
 
+app.use(express.json())
+
 app.get('/', (req, res) => {
     res.send('<h1>Books</h1>')
+})
+
+// All books
+app.get('/books', (req, res) => {
+    db.all('SELECT * FROM books', (err, data) => {
+        if(err) {
+            console.log(err)
+        }
+
+        if(!data) {
+            return res.json({ 'error': 'No data' })
+        }
+        res.json(data)
+    })
 })
 
 app.listen(3000)
