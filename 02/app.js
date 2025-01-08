@@ -130,6 +130,7 @@ app.put('/books/:id', (req, res) => {
     )
 })
 
+// Delete a book
 app.delete('/books/:id', (req, res) => {
     db.run('DELETE FROM books WHERE id = ?', req.params.id, function(err) {
         if(err) {
