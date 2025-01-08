@@ -71,6 +71,21 @@ app.get('/books', (req, res) => {
     })
 })
 
+// Get book by id
+app.get('/books/:id', (req, res) => {
+    db.get('SELECT * FROM books WHERE id = ?', req.params.id, (err, data) => {
+        if(err) {
+            console.error(err)
+            return res.json({ error: err.message })
+        }
+
+        if(!data) {
+            return res.json({ error: 'No data' })
+        }
+
+        res.json(data)
+    })
+})
 
 // New book
 app.post('/books', (req, res) => {
