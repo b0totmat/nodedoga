@@ -130,4 +130,14 @@ app.put('/books/:id', (req, res) => {
     )
 })
 
+app.delete('/books/:id', (req, res) => {
+    db.run('DELETE FROM books WHERE id = ?', req.params.id, function(err) {
+        if(err) {
+            console.error(err)
+            return res.json({ error: err.message })
+        }
+        res.json({ message: 'Deleted successfully.' })
+    })
+})
+
 app.listen(3000)
