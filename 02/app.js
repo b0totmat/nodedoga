@@ -107,4 +107,27 @@ app.post('/books', (req, res) => {
     })
 })
 
+// Modify a book
+app.put('/books/:id', (req, res) => {
+    db.run('UPDATE books SET title = ?, author = ?, description = ?, year = ? WHERE id = ?',
+        [
+            req.body.title,
+            req.body.author,
+            req.body.description,
+            Number(req.body.year),
+            req.params.id
+        ],
+        function(err) {
+            if(err) {
+                console.error(err)
+                return res.json({ error: err.message })
+            }
+            res.json({
+                id: req.params.id,
+                ...req.body
+            })
+        }
+    )
+})
+
 app.listen(3000)
