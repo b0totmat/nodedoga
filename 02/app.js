@@ -71,4 +71,20 @@ app.get('/books', (req, res) => {
     })
 })
 
+
+// New book
+app.post('/books', (req, res) => {
+    console.log(req.body)
+    db.run('INSERT INTO books (title, author, description, year) VALUES (?, ?, ?, ?)' [ req.body.title, req.body.author, req.body.description, req.body.year], function(err) {
+        if(err) {
+            console.error(err)
+            return res.json({ error: err.message })
+        }
+        res.json({
+            id: this.lastID,
+            ...req.body
+        })
+    })
+})
+
 app.listen(3000)
